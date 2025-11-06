@@ -1,10 +1,16 @@
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        users_in_memory:
+            memory:
+                users:
+                    user:
+                        password: "$2y$13$zAq3ZQ4IvU1aYF3HZ3DPeO3CaGl9w3D8CC5zS6KTv7e0xoqI4khSO" # password: 1234
+                        roles: ["ROLE_USER"]
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -23,7 +29,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/dashboard, roles: ROLE_USER } # 👈 Added this line to protect /dashboard
+        - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
